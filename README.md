@@ -11,32 +11,30 @@
 ### Backend
 - [FastAPI](https://fastapi.tiangolo.com/) — построение микросервисов
 - [Uvicorn](https://www.uvicorn.org/) / Gunicorn — ASGI-сервер
-- [SQLAlchemy](https://www.sqlalchemy.org/) / SQLModel — ORM
+- [SQLAlchemy](https://www.sqlalchemy.org/) — ORM
 - [PostgreSQL](https://www.postgresql.org/) — основная СУБД
 - [Redis](https://redis.io/) — кеш и брокер сообщений
 - [Celery](https://docs.celeryq.dev/) — фоновые задачи (уведомления, интеграции)
 - [PyJWT](https://pyjwt.readthedocs.io/) / OAuth2 — аутентификация и авторизация
 
 ### Frontend
-- [React](https://react.dev/) / [Next.js](https://nextjs.org/) — SPA/SSR интерфейс
+- [React](https://react.dev/) — SPA/SSR интерфейс
 - [TailwindCSS](https://tailwindcss.com/) — адаптивная стилизация
 
 ### Интеграции
 - Google Calendar API — синхронизация расписания
-- SendGrid / Twilio / Yandex360 — email/sms уведомления
-- Stripe / YooKassa — онлайн-оплата
+- Yandex360 — email/sms уведомления
+- YooKassa — онлайн-оплата
 
 ### Инфраструктура
 - Docker + Docker Compose — контейнеризация
 - Nginx — реверс-прокси
-- Git + GitHub/GitLab — контроль версий
-- CI/CD (GitHub Actions / GitLab CI) — автоматизация сборки и тестов
-- Kubernetes (опционально) — оркестрация микросервисов
+- Git + GitHub — контроль версий
+- CI/CD (GitHub Actions) — автоматизация сборки и тестов
 
 ### Тестирование и документация
 - Pytest — модульные и интеграционные тесты
-- Swagger / OpenAPI (встроен в FastAPI) — автогенерация документации API
-- Sphinx / MkDocs — документация проекта
+- OpenAPI (встроен в FastAPI) — автогенерация документации API
 
 ---
 
@@ -44,10 +42,9 @@
 - **FastAPI** — высокая производительность, простота интеграции с асинхронными библиотеками, удобная валидация (Pydantic).
 - **PostgreSQL** — надёжность, поддержка транзакций, масштабируемость.
 - **Redis + Celery** — отложенные задачи (напоминания, интеграции), разгрузка основного сервиса.
-- **React / Next.js** — современный интерфейс, SSR и SPA-подход.
+- **React** — современный интерфейс, SPA-подход.
 - **Docker** — быстрый деплой и совместимость окружений.
-- **Swagger** — автогенерация документации без дополнительных усилий.
-- **Stripe / YooKassa** — безопасные и распространённые платёжные решения.
+- **YooKassa** — безопасные и распространённые платёжные решения.
 
 ---
 
@@ -62,11 +59,6 @@
 6. **Integration Service** — синхронизация с Google Calendar  
 7. **Frontend** — веб-интерфейс для студентов и преподавателей  
 8. **Admin Panel** — управление системой (для преподавателей/администратора)
-
-### Общие компоненты
-- API Gateway (Nginx или отдельный сервис) — маршрутизация запросов
-- Database Layer — PostgreSQL, Redis
-- Monitoring & Logging — Prometheus, Grafana, ELK stack
 
 ---
 
@@ -88,19 +80,10 @@
 6. **Integration Service** — синхронизация с Google Calendar (**средний приоритет**)  
 
 ### Этап 4. Интерфейс
-7. **Frontend (React/Next.js)** — веб-клиент (**средний приоритет**)  
+7. **Frontend (React)** — веб-клиент (**средний приоритет**)  
 8. **Admin Panel** — панель управления (**низкий приоритет**)  
 
 ### Этап 5. Нефункциональные задачи
 - Написание тестов (unit, интеграционные, нагрузочные)  
 - Подготовка документации (API, руководство пользователя, гайд по развёртыванию)  
 - Настройка мониторинга и логирования  
-
----
-
-## 📊 Метрики эффективности
-- Доля подтверждённых занятий после напоминания  
-- Конверсия напоминаний в оплату  
-- Среднее время подтверждения урока  
-
----
