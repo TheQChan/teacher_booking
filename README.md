@@ -9,42 +9,43 @@
 ## ⚙️ Технологии
 
 ### Backend
-- [FastAPI](https://fastapi.tiangolo.com/) — построение микросервисов
-- [Uvicorn](https://www.uvicorn.org/) / Gunicorn — ASGI-сервер
-- [SQLAlchemy](https://www.sqlalchemy.org/) — ORM
-- [PostgreSQL](https://www.postgresql.org/) — основная СУБД
-- [Redis](https://redis.io/) — кеш и брокер сообщений
-- [Celery](https://docs.celeryq.dev/) — фоновые задачи (уведомления, интеграции)
-- [PyJWT](https://pyjwt.readthedocs.io/) / OAuth2 — аутентификация и авторизация
+- [Django REST Framework] — текущая реализация API в этом репозитории
 
 ### Frontend
-- [React](https://react.dev/) — SPA/SSR интерфейс
-- [TailwindCSS](https://tailwindcss.com/) — адаптивная стилизация
-
-### Интеграции
-- Google Calendar API — синхронизация расписания
-- Yandex360 — email/sms уведомления
-- YooKassa — онлайн-оплата
-
-### Инфраструктура
-- Docker + Docker Compose — контейнеризация
-- Nginx — реверс-прокси
-- Git + GitHub — контроль версий
-- CI/CD (GitHub Actions) — автоматизация сборки и тестов
-
-### Тестирование и документация
-- Pytest — модульные и интеграционные тесты
-- OpenAPI (встроен в FastAPI) — автогенерация документации API
+- React + Vite — SPA-интерфейс
 
 ---
 
-## 💡 Обоснование выбора технологий
-- **FastAPI** — высокая производительность, простота интеграции с асинхронными библиотеками, удобная валидация (Pydantic).
-- **PostgreSQL** — надёжность, поддержка транзакций, масштабируемость.
-- **Redis + Celery** — отложенные задачи (напоминания, интеграции), разгрузка основного сервиса.
-- **React** — современный интерфейс, SPA-подход.
-- **Docker** — быстрый деплой и совместимость окружений.
-- **YooKassa** — безопасные и распространённые платёжные решения.
+## Запуск локально
+
+### Docker Compose
+
+```bash
+# из корня репозитория
+docker compose build
+docker compose up -d
+
+# фронтенд: http://localhost:5173
+# API: http://localhost:8000/api/v1/
+```
+
+Остановить:
+```bash
+docker compose down
+```
+
+
+Фронт будет на `http://localhost:5173`. Запросы к `/api` проксируются на `http://localhost:8000` (см. `frontend/nginx.conf` для Docker и `frontend/vite.config.ts` для dev-режима).
+
+---
+
+##  Что ещё надо доделать в бэкенде
+- Аутентификация и роли (student/teacher) — сейчас нет логина и токенов
+- Валидация времени (проверка пересечений слотов и форматов дат)
+- Связь с реальным `User` при создании слота (сейчас требуется `teacher` как ID)
+- Пагинация/фильтрация списка сессий на API
+- Статусы и правила переходов (available → scheduled → completed)
+- CORS-политика на прод (в dev закрыто прокси)
 
 ---
 
