@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: teacher_booking_backend
+    ports:
+      - "8000:8000"
+    working_dir: /app/teacher_booking
+    environment:
+      - DJANGO_SETTINGS_MODULE=teacher_booking.settings
+      - SECRET_KEY=dev-insecure-change-me
+    volumes:
+      - ./backend/teacher_booking:/app/teacher_booking
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: teacher_booking_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+
