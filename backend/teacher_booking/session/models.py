@@ -19,8 +19,16 @@ class Session(models.Model):
 
 
 class UserInfo(models.Model):
-    ROLES = [("student", "student"),
-                ("teacher", "teacher")]
+    STUDENT = "student"
+    TEACHER = "teacher"
+    ROLE_CHOICES = {STUDENT: "Ученик",
+                    TEACHER: "Преподаватель"}
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=15)
-    role = models.CharField(choices=ROLES)
+    role = models.CharField(choices=ROLE_CHOICES)
+
+    def is_teacher(self):
+        return self.role == self.TEACHER
+
+    def is_student(self):
+        return self.role == self.STUDENT
