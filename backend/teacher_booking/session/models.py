@@ -3,14 +3,19 @@ from django.db import models
 
 # Create your models here.
 class Session(models.Model):
-    STATUSES = [("available", "available"),
-                ("scheduled", "scheduled"),
-                ("completed", "completed")]
+    AVAILABLE = "available"
+    SCHEDULED = "scheduled"
+    COMPLETED = "completed"
+    CANCELED = "canceled"
+    STATUS_CHOICES = {AVAILABLE: "Свободно",
+                      SCHEDULED: "Забронировано",
+                      COMPLETED: "Завершено",
+                      CANCELED: "Отменено"}
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     student = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="student_session")
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teacher_session")
-    status = models.CharField(max_length=10, choices=STATUSES, default="available")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="available")
 
 
 class UserInfo(models.Model):
