@@ -24,6 +24,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if user is already logged in
     const checkAuth = async () => {
       try {
+        // First get CSRF token
+        await fetch('/api/v1/drf-auth/login/', { credentials: 'include' })
+        
         const userData = await authApi.getCurrentUser()
         setUser(userData)
       } catch (error) {

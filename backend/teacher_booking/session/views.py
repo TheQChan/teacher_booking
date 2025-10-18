@@ -128,3 +128,22 @@ class UserRegistrationView(APIView):
             "message": "Ошибка регистрации",
             "errors": serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CurrentUserView(APIView):
+    """
+    View to get current user info
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "phone_number": user.userinfo.phone_number,
+            "role": user.userinfo.role
+        })

@@ -6,22 +6,52 @@ const API_BASE = '/api/v1'
 const api = axios.create({
   baseURL: API_BASE,
   withCredentials: true,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
 })
+
+// Get CSRF token
+const getCSRFToken = async () => {
+  try {
+    await api.get('/drf-auth/login/')
+  } catch (error) {
+    // Ignore errors, we just need the CSRF token
+  }
+}
 
 // Auth endpoints
 export const authApi = {
   register: async (data: RegisterData): Promise<User> => {
+    // Get CSRF token first
+    await getCSRFToken()
+    
     const response = await api.post('/register/', data)
-    return response.data.user
+    const user = response.data.user
+    
+    // Auto-login after registration
+    await authApi.login(data.username, data.password)
+    
+    return user
   },
   
   login: async (username: string, password: string): Promise<User> => {
-    const response = await api.post('/drf-auth/login/', {
-      username,
-      password,
+    // Get CSRF token first
+    await getCSRFToken()
+    
+    // DRF session auth uses form data
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
+    
+    const response = await api.post('/drf-auth/login/', formData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     })
-    // DRF session auth returns user data in response
-    return response.data
+    
+    // After successful login, get user data
+    const userResponse = await api.get('/drf-auth/user/')
+    return userResponse.data
   },
   
   logout: async (): Promise<void> => {

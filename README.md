@@ -27,13 +27,7 @@ docker compose up -d
 
 # фронтенд: http://localhost:5173
 # API: http://localhost:8000/api/v1/
-# Django Admin: http://localhost:8000/admin/ (admin/admin)
 ```
-
-**Автоматически создается суперпользователь:**
-- Логин: `admin`
-- Пароль: `admin`
-- Доступ к Django Admin: http://localhost:8000/admin/
 
 Остановить:
 ```bash

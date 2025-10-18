@@ -19,7 +19,7 @@ from django.urls import path, include
 
 # from session.views import SessionsAPIList, SessionAPIUpdate, SessionAPIDetailView
 # from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-from session.views import SessionViewSet, UserRegistrationView
+from session.views import SessionViewSet, UserRegistrationView, CurrentUserView
 from rest_framework import routers
 
 
@@ -33,5 +33,6 @@ urlpatterns = [
     # path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/register/', UserRegistrationView.as_view(), name='register'),
+    path('api/v1/drf-auth/user/', CurrentUserView.as_view(), name='current_user'),
     path('api/v1/drf-auth/', include('rest_framework.urls')),
 ]
