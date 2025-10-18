@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 # from session.views import SessionsAPIList, SessionAPIUpdate, SessionAPIDetailView
-from session.views import SessionViewSet
+# from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from session.views import SessionViewSet, UserRegistrationView
 from rest_framework import routers
 
 
@@ -27,5 +28,10 @@ router.register(r'session', SessionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("api/v1/", include(router.urls))
+    path("api/v1/", include(router.urls)),
+    # path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/v1/register/', UserRegistrationView.as_view(), name='register'),
+    path('api/v1/drf-auth/', include('rest_framework.urls')),
 ]
