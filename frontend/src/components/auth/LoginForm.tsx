@@ -19,10 +19,31 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const validateForm = () => {
+    const errors: string[] = []
+
+    if (!formData.username.trim()) {
+      errors.push('Имя пользователя обязательно')
+    }
+
+    if (!formData.password) {
+      errors.push('Пароль обязателен')
+    }
+
+    return errors
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
+
+    const validationErrors = validateForm()
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(', '))
+      setIsLoading(false)
+      return
+    }
 
     try {
       await login(formData.username, formData.password)

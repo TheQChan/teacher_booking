@@ -18,7 +18,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
     password: '',
     password_confirm: '',
     phone_number: '',
-    role: 'student',
+    role: 'student', // Автоматически student
     first_name: '',
     last_name: ''
   })
@@ -27,10 +27,59 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const validateForm = () => {
+    const errors: string[] = []
+
+    if (!formData.first_name.trim()) {
+      errors.push('Имя обязательно')
+    }
+
+    if (!formData.last_name.trim()) {
+      errors.push('Фамилия обязательна')
+    }
+
+    if (!formData.username.trim()) {
+      errors.push('Имя пользователя обязательно')
+    } else if (formData.username.length < 3) {
+      errors.push('Имя пользователя должно содержать минимум 3 символа')
+    }
+
+    if (!formData.email.trim()) {
+      errors.push('Email обязателен')
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.push('Некорректный формат email')
+    }
+
+    if (!formData.phone_number.trim()) {
+      errors.push('Телефон обязателен')
+    } else if (!/^[\+]?[0-9\s\-\(\)]{10,}$/.test(formData.phone_number)) {
+      errors.push('Некорректный формат телефона')
+    }
+
+    if (!formData.password) {
+      errors.push('Пароль обязателен')
+    } else if (formData.password.length < 8) {
+      errors.push('Пароль должен содержать минимум 8 символов')
+    }
+
+    if (formData.password !== formData.password_confirm) {
+      errors.push('Пароли не совпадают')
+    }
+
+    return errors
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
+
+    const validationErrors = validateForm()
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(', '))
+      setIsLoading(false)
+      return
+    }
 
     try {
       await register(formData)
@@ -108,22 +157,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
           required
           placeholder="+7 (999) 123-45-67"
         />
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Роль
-          </label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            required
-          >
-            <option value="student">Ученик</option>
-            <option value="teacher">Преподаватель</option>
-          </select>
-        </div>
         
         <div className="relative">
           <Input

@@ -20,20 +20,66 @@ export const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
   })
   const [error, setError] = useState('')
 
+  const validateForm = () => {
+    const errors: string[] = []
+
+    if (!formData.start_time) {
+      errors.push('Время начала обязательно')
+    }
+
+    if (!formData.end_time) {
+      errors.push('Время окончания обязательно')
+    }
+
+    if (formData.start_time && formData.end_time) {
+      const startTime = new Date(formData.start_time)
+      const endTime = new Date(formData.end_time)
+      const now = new Date()
+
+      if (startTime <= now) {
+        errors.push('Время начала должно быть в будущем')
+      }
+
+      if (endTime <= startTime) {
+        errors.push('Время окончания должно быть позже времени начала')
+      }
+
+      // Проверка на разумную продолжительность (минимум 30 минут, максимум 8 часов)
+      const duration = endTime.getTime() - startTime.getTime()
+      const minDuration = 30 * 60 * 1000 // 30 минут
+      const maxDuration = 8 * 60 * 60 * 1000 // 8 часов
+
+      if (duration < minDuration) {
+        errors.push('Минимальная продолжительность занятия - 30 минут')
+      }
+
+      if (duration > maxDuration) {
+        errors.push('Максимальная продолжительность занятия - 8 часов')
+      }
+
+      // Проверка на рабочие часы (8:00 - 22:00)
+      const startHour = startTime.getHours()
+      const endHour = endTime.getHours()
+
+      if (startHour < 8 || startHour > 22) {
+        errors.push('Занятия можно создавать только с 8:00 до 22:00')
+      }
+
+      if (endHour > 22) {
+        errors.push('Занятия должны заканчиваться не позже 22:00')
+      }
+    }
+
+    return errors
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
 
-    if (!formData.start_time || !formData.end_time) {
-      setError('Заполните все поля')
-      return
-    }
-
-    const startTime = new Date(formData.start_time)
-    const endTime = new Date(formData.end_time)
-
-    if (endTime <= startTime) {
-      setError('Время окончания должно быть позже времени начала')
+    const validationErrors = validateForm()
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(', '))
       return
     }
 
