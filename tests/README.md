@@ -5,7 +5,7 @@
 ## Структура
 - `api/` — перенесённые Django `TestCase` с `APIClient`, которые проверяют расписание, регистрацию и профиль.  
 - `bdd/` — Gherkin-сценарии с шагами на `pytest-bdd` для ключевых флоу.  
-- `gui/` — заготовка для будущих Selenium/Playwright-тестов (пока только README).  
+- `gui/` — Selenium-реализация проверки админки (`gui/conftest.py`, `gui/test_admin_login.py`) и инструкции по запуску.
 - `load/` — сценарии на Locust для имитации нагрузки со стороны учителя и студента.  
 - `test_cases/` — человекочитаемые описания тестов, которые соответствуют `api/`.  
 - `requirements.txt` — зависимости Django/DRF + `pytest`, `pytest-bdd` и `locust`.  
