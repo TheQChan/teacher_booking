@@ -7,10 +7,11 @@ from rest_framework import status
 
 from session.models import Session, UserInfo
 
-# Для проверки покрытия pip install coverage
-# coverage run manage.py test
-# coverage report -m
-# coverage html  (подробный отчет в hrml)
+# Run the suite from this repository root:
+#   pytest
+# For coverage reports:
+#   coverage run -m pytest
+#   coverage report -m
 
 class BaseAPITest(TestCase):
     def setUp(self):
