@@ -7,6 +7,7 @@ PyJWT==2.10.1
 python-decouple==3.8
 sqlparse==0.5.3
 django-cors-headers==4.3.1
+locust==3.3.3
 pytest==7.4.2
 pytest-django==4.5.2
 pytest-bdd
