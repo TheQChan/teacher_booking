@@ -8,9 +8,9 @@ from rest_framework import status
 from session.models import Session, UserInfo
 
 # Run the suite from this repository root:
-#   pytest
+#   pytest api/test_session_api.py
 # For coverage reports:
-#   coverage run -m pytest
+#   overage run -m pytest api/test_session_api.py
 #   coverage report -m
 
 class BaseAPITest(TestCase):
