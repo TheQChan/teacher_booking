@@ -1,29 +1,29 @@
 # Teacher Booking Tests
 
-В каталоге `teacher_booking/tests/` собраны все вынесенные проверки бэкенда: API-тесты, BDD-сценарии, GUI-заготовки и нагрузочные сценарии. Это позволяет держать тесты отдельно от самого приложения, но при этом использовать его настройки через `conftest.py`.
+`teacher_booking/tests/` is purpose-built to keep all externalized verification layers next to the main project without cluttering the Django code. It now contains:
 
-## Структура
-- `api/` — перенесённые Django `TestCase` с `APIClient`, которые проверяют расписание, регистрацию и профиль.  
-- `bdd/` — Gherkin-сценарии с шагами на `pytest-bdd` для ключевых флоу.  
-- `gui/` — Selenium-реализация проверки админки (`gui/conftest.py`, `gui/test_admin_login.py`) и инструкции по запуску.
-- `load/` — сценарии на Locust для имитации нагрузки со стороны учителя и студента.  
-- `test_cases/` — человекочитаемые описания тестов, которые соответствуют `api/`.  
-- `requirements.txt` — зависимости Django/DRF + `pytest`, `pytest-bdd` и `locust`.  
-- `conftest.py` — конфиг для подгрузки соседнего бэкенда (`../backend/teacher_booking`) и инициализации Django.
+- `api/` — the migrated Django `TestCase` suites that call DRF endpoints with `APIClient`.  
+- `bdd/` — `pytest-bdd` scenarios covering schedule guards, registration, and role behavior.  
+- `gui/` — Selenium consumer flows (auth page trust, teacher onboarding plus slot creation).  
+- `load/` — Locust scripts that exercise the registration/session APIs for load testing.  
+- `test_cases/` — human-readable summaries of each scenario backed by the API tests.  
+- `requirements.txt` — pins Django/DRF plus `pytest`, `pytest-bdd`, `locust`, and Selenium-related drivers.  
+- `conftest.py` — configures Django by pointing at `../backend/teacher_booking` so tests can import the same settings and models.
 
-## Подготовка
-1. Убедитесь, что папка `teacher_booking/tests/` находится рядом с `backend/` и `frontend/`.  
-2. Установите зависимости:
+## Environment
+1. Keep this folder adjacent to `backend/` and `frontend/`.  
+2. Install dependencies:
    ```bash
    python -m pip install -r requirements.txt
    ```
 
-## Запуск
-- API-тесты: `pytest`  
-- BDD-сценарии: `pytest bdd/test_sessions_bdd.py`  
-- Нагрузочные: `locust -f load/locustfile.py --host http://localhost:8000`
+## Running the suites
+- API: `pytest`  
+- BDD: `pytest bdd/test_sessions_bdd.py`  
+- GUI: `pytest gui/test_frontend_home.py gui/test_frontend_teacher_flow.py` (see `gui/README.md` for servers)  
+- Load: `locust -f load/locustfile.py --host http://localhost:8000`
 
-## Что дальше
-- Добавляйте новые сценарии и шаги в соответствующие папки (`api/`, `bdd/`, `gui/`, `load/`), описывайте их в `test_cases/`.  
-- Обновляйте `requirements.txt`, если потребуется новый фреймворк.  
-- Для каждого раздела можно хранить собственный `README`, как это сделано для `api/`, `bdd/`, `load/`.
+## Workflow notes
+- Keep `test_cases/` in sync with the new test behavior (especially when API endpoints change).  
+- Extend `gui/` with new flows, using Page Objects or front-end helpers as needed.  
+- When adding dependencies for BDD/GUI/Load suites, update `requirements.txt` so `pip install -r requirements.txt` still works.
