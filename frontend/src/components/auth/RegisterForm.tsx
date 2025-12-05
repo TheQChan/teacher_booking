@@ -18,7 +18,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
     password: '',
     password_confirm: '',
     phone_number: '',
-    role: 'student', // Автоматически student
+    role: 'student',
     first_name: '',
     last_name: ''
   })
@@ -98,6 +98,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
     }))
   }
 
+  const roleOptions = [
+    { value: 'student', label: 'Ученик' },
+    { value: 'teacher', label: 'Преподаватель' }
+  ]
+
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
@@ -111,6 +116,28 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSwitchToLogin }) =
           </div>
         )}
         
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-gray-700">Р?Р?Р? Р?Р?Р?Р?Р?Р–Р?Р?Р?Р?Р??Р?Р?Р?</p>
+          <div className="flex gap-2">
+            {roleOptions.map(option => (
+              <Button
+                key={option.value}
+                type="button"
+                variant={formData.role === option.value ? 'primary' : 'outline'}
+                size="sm"
+                onClick={() =>
+                  setFormData(prev => ({
+                    ...prev,
+                    role: option.value as 'student' | 'teacher'
+                  }))
+                }
+              >
+                {option.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Имя"

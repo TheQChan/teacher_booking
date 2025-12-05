@@ -33,6 +33,9 @@ def test_frontend_teacher_flow(browser):
         EC.visibility_of_element_located((By.NAME, "first_name"))
     )
 
+    role_button = browser.find_element(By.XPATH, "//button[contains(., 'Преподаватель')]")
+    role_button.click()
+
     browser.find_element(By.NAME, "first_name").send_keys("Selenium")
     browser.find_element(By.NAME, "last_name").send_keys("Teacher")
     browser.find_element(By.NAME, "username").send_keys(username)
@@ -50,9 +53,6 @@ def test_frontend_teacher_flow(browser):
     )
 
     teacher = User.objects.get(username=username)
-    teacher.userinfo.role = 'teacher'
-    teacher.userinfo.save()
-
     browser.refresh()
 
     create_button = WebDriverWait(browser, 20).until(
